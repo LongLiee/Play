@@ -2,7 +2,7 @@ package controllers
 
 import javax.inject._
 import play.api.mvc._
-
+import play.api.libs._
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
@@ -17,7 +17,9 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
    * a path of `/`.
    */
   def index = Action {
-    Ok(views.html.index("Your new application is ready."))
+//    val chartData = services.HttpClientExample.getData()
+    val chartData1 = services.HttpClientExample.getData
+    Ok(views.html.index("lala", chartData1))
   }
 
 }
