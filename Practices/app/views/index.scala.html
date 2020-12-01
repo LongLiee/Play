@@ -2,18 +2,121 @@
 * This template takes a single argument, a String containing a
 * message to display.
 *@
-@(message: String,chartData:Unit)
-    <h2>@chartData</h2>
+@(message: String,jsonData:String)
+
     @*
     * Call the `main` template with two arguments. The first
     * argument is a `String` with the title of the page, the second
     * argument is an `Html` object containing the body of the page.
     *@
-    @main("Welcome to Play") {
-        @*
-        * Get an `Html` object by calling the built-in Play welcome
-        * template and passing a `String` message.
-        *@
-       @welcome(message, style = "scala")
+   @* @main("Welcome to Play", welcome(message, style = "scala"),chartData)) {
 
-    }
+    }*@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        @* Here's where we render the page title `String`. *@
+        <title>@message</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/series-label.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    </head>
+    <body>
+        <figure class="highcharts-figure">
+            <div id="container"></div>
+            <p class="highcharts-description">
+                Basic line chart showing trends in a dataset. This chart includes the
+                <code>series-label</code> module, which adds a label to each line for
+                enhanced readability.
+            </p>
+        </figure>
+
+        <script type="module">
+
+                Highcharts.chart('container', {
+                    title: {
+                        text: 'Solar Employment Growth by Sector, 2010-2016'
+                    },
+
+                    subtitle: {
+                        text: 'Source: thesolarfoundation.com'
+                    },
+
+                    yAxis: {
+                        title: {
+                            text: 'Number of Employees'
+                        }
+                    },
+                    xAxis: {
+                        accessibility: {
+                            rangeDescription: 'Range: 2010 to 2017'
+                        }
+                    },
+
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle'
+                    },
+
+                    plotOptions: {
+                        series: {
+                            label: {
+                                connectorAllowed: false
+                            },
+                            pointStart: 2015
+                        }
+                    },
+
+                    series: [{
+                        name: 'Installation',
+                        data: [0, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+                    }, {
+                        name: 'Manufacturing',
+                        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+                    }, {
+                        name: 'Sales & Distribution',
+                        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+                    }, {
+                        name: 'Project Development',
+                        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+                    }, {
+                        name: 'Other',
+                        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+                    }],
+
+                    responsive: {
+                        rules: [{
+                            condition: {
+                                maxWidth: 500
+                            },
+                            chartOptions: {
+                                legend: {
+                                    layout: 'horizontal',
+                                    align: 'center',
+                                    verticalAlign: 'bottom'
+                                }
+                            }
+                        }]
+                    }
+
+                });
+                var testName = @Html(jsonData)
+                var newData = testName.category_types.buckets
+                console.log(newData)
+
+        </script>
+
+
+        @* And here's where we render the `Html` object containing
+        * the page content. *@
+        @* @content
+        @text*@
+
+    </body>
+</html>

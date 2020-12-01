@@ -8,8 +8,8 @@ import com.sksamuel.elastic4s.http.JavaClient
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
-import play.api.libs.json.JsValue
-
+import play.api.libs.json._
+import com.sksamuel.elastic4s.requests.searches.{DateHistogramInterval, SearchResponse}
 import com.sksamuel.elastic4s.{ElasticClient, ElasticProperties, RequestFailure, RequestSuccess}
 //import play.mvc.BodyParser.Json
 //import org.json4s.jackson.JsonMethods._
@@ -17,43 +17,31 @@ import com.sksamuel.elastic4s.{ElasticClient, ElasticProperties, RequestFailure,
 //import org.json4s.JsonInput
 
 
-object HttpClientExample extends App {
+class HttpClientExample extends App {
   def getData = {
       val domain = ConfigFactory.load().getString("MY_DOMAIN")
       val props = ElasticProperties(domain)
       val client = ElasticClient(JavaClient(props))
 
-    val dataExp = client.execute {
-      search("kibana_sample_data_ecommerce").query(
-        boolQuery().must(
-          matchQuery("category","Men's Clothing"),
-          matchQuery("day_of_week","Monday")
-        )
-      )
-    }
+     val rawData = client.execute {
+          search("kibana_sample_data_ecommerce")
+            .size(0)
+            .aggs{
+              termsAgg("category_types","category.keyword").subAggregations(
+                dateHistogramAgg("each_day","order_date").format("yyyy-MM-dd").calendarInterval(DateHistogramInterval.Day)
+              )
+            }
+          .sourceInclude("category","order_date")
+        }.await
 
 
-    val result = Await.result(dataExp, Duration.Inf)
+    rawData.result.aggregationsAsString
+
+//    val result = Await.result(dataExp, Duration.Inf)
 //    val prettyPrint = Json.stringify(result)
 
-
-
-
-
-
-
-
-
-
-
-    println("----------------------------------------------------------------------------")
-
-    println(result)
-
+//    dataExp.result.hits.total.value
 
   }
-
-
-
 
 }

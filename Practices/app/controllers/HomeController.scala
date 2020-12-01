@@ -1,5 +1,5 @@
 package controllers
-
+import services.HttpClientExample
 import javax.inject._
 import play.api.mvc._
 import play.api.libs._
@@ -18,8 +18,9 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
    */
   def index = Action {
 //    val chartData = services.HttpClientExample.getData()
-    val chartData1 = services.HttpClientExample.getData
-    Ok(views.html.index("lala", chartData1))
+    val chartData1 = new HttpClientExample
+    println(chartData1.getData)
+    Ok(views.html.index( "data", chartData1.getData))
   }
 
 }
