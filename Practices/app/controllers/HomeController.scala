@@ -20,7 +20,7 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
 //    val chartData = services.HttpClientExample.getData()
     val chartData1 = new HttpClientExample
     println(chartData1.getData)
-    Ok(views.html.index( "data", chartData1.getData))
+    Ok(views.html.index( "Welcome", chartData1.getData))
   }
 
 }

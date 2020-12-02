@@ -160,3 +160,7 @@ aside a[href^="http"]:after,.doc a[href^="http"]:after{content:url(/assets/image
 .highcharts-data-table tr:hover {
     background: #f1f7ff;
 }
+.select--tag{
+    display: block;
+    margin-bottom: 10px;
+}
