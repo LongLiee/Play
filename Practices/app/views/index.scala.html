@@ -2,7 +2,8 @@
 * This template takes a single argument, a String containing a
 * message to display.
 *@
-@(message: String,jsonData:String)
+@import play.api.libs.json.JsValue
+@(message: String,jsonData:JsValue)
 
     @*
     * Call the `main` template with two arguments. The first
@@ -42,43 +43,44 @@
                 <option value="oneDay">1 day</option>
             </select>
         </div>
-        <button onclick="filterData()">Apply</button>
+     <button onclick="filterData()">Apply</button>
         <script type="text/javascript">
                 var chart
-                var objData = @Html(jsonData)
+                var objData = @Html(jsonData.toString())
                 // ---------------------------------------------------------------------
+               //  var menClothing = objData.category_types.buckets[0].each_day.buckets
+               //  var nameMenClothing = objData.category_types.buckets[0].key
+                //  var womenClothing = objData.category_types.buckets[1].each_day.buckets
+                //  var nameWomenClothing = objData.category_types.buckets[1].key
+               //  // ---------------------------------------------------------------------
+               //  var dataMenClothing = [objData[0][0].doc_count,objData[0][1].doc_count,objData[0][2].doc_count,
+               //  ,objData[0][3].doc_count,objData[0][4].doc_count,objData[0][5].doc_count,objData[0][6].doc_count]
 
-
-                var menClothing = objData.category_types.buckets[0].each_day.buckets
-                var nameMenClothing = objData.category_types.buckets[0].key
-
-                // ---------------------------------------------------------------------
-                var dataMenClothing = [menClothing[0].doc_count,menClothing[1].doc_count,menClothing[2].doc_count,menClothing[3].doc_count,
-                    menClothing[4].doc_count,menClothing[5].doc_count,menClothing[6].doc_count]
-
-                var timeLine = [menClothing[0].key_as_string, menClothing[1].key_as_string,
-                    menClothing[2].key_as_string,menClothing[3].key_as_string,menClothing[4].key_as_string,
-                    menClothing[5].key_as_string,menClothing[6].key_as_string]
-
-
+                         var dataMenClothing = [objData[0][0].doc_count,objData[0][1].doc_count,objData[0][2].doc_count,
+                             objData[0][3].doc_count,objData[0][4].doc_count,objData[0][5].doc_count,objData[0][6].doc_count
+                         ]
 
 
 
 
+                console.log(dataMenClothing)
+                console.log(typeof dataMenClothing)
 
-                var womenClothing = objData.category_types.buckets[1].each_day.buckets
-                var nameWomenClothing = objData.category_types.buckets[1].key
-                var dataWomenClothing = [womenClothing[0].doc_count,womenClothing[1].doc_count,womenClothing[2].doc_count,womenClothing[3].doc_count,
-                    womenClothing[4].doc_count,womenClothing[5].doc_count,womenClothing[6].doc_count]
+
+
+                var timeLine = [objData[0][0].key_as_string,objData[0][1].key_as_string,objData[0][2].key_as_string,
+                    objData[0][3].key_as_string,objData[0][4].key_as_string,objData[0][5].key_as_string,objData[0][6].key_as_string,]
+                var dataWomenClothing = [objData[1][0].doc_count,objData[1][1].doc_count,objData[1][2].doc_count,objData[1][3].doc_count,
+                    objData[1][4].doc_count,objData[1][5].doc_count,objData[1][6].doc_count]
 
                 var series =[{
                     id:1,
-                    name: nameMenClothing,
+                    name: "Men's Clothing",
                     data: dataMenClothing
                 },
                     {
                         id:2,
-                        name: nameWomenClothing,
+                        name: "Women's Clothing",
                         data: dataWomenClothing
                     }
                 ]
@@ -89,9 +91,77 @@
                    var valueDay = getValueDays()
                    console.log("----Category------",valueCategory)
                    console.log("----Day------",valueDay)
+                   if (valueCategory == "All" && valueDay == "sevenDays"){
+                       rerenderUI(series)
+                   } else if ( valueCategory == "All" && valueDay == "threeDays" ) {
+                       rerenderUI([{
+                           id:1,
+                           name: "Men's Clothing" ,
+                           data: dataMenClothing.slice(0,3)
+                       },
+                           {
+                               id:2,
+                               name: "Women's Clothing",
+                               data: dataWomenClothing.slice(0,3)
+                           }
+                       ])
+                   }  else if ( valueCategory == "All" && valueDay == "oneDay" ) {
+                       rerenderUI([{
+                           id:1,
+                           name: "Men's Clothing",
+                           data: dataMenClothing.slice(0,1)
+                       },
+                           {
+                               id:2,
+                               name: "Women's Clothing",
+                               data: dataWomenClothing.slice(0,1)
+                           }
+                       ])
+                   } else if ( valueCategory == "MenClo" && valueDay == "sevenDays"){
+                       rerenderUI(newData = [{
+                           id:1,
+                           name: "Men's Clothing",
+                           data: dataMenClothing
+                       }])
+                   } else if ( valueCategory == "MenClo" && valueDay == "threeDays" ) {
+                       rerenderUI(newData = [{
+                           id:1,
+                           name: "Men's Clothing",
+                           data: dataMenClothing.slice(0,3)
+                       }])
+                   }
+                   else if ( valueCategory == "MenClo" && valueDay == "oneDay" ) {
+                       rerenderUI(newData = [{
+                           id:1,
+                           name: "Men's Clothing",
+                           data: dataMenClothing.slice(0,1)
+                       }])
+                   }
+                   else if ( valueCategory == "WomenClo" && valueDay == "sevenDays" ) {
+                       rerenderUI(newData = [{
+                           id:1,
+                           name: "Women's Clothing",
+                           data: dataWomenClothing
+                       }])
+                   }
+                   else if ( valueCategory == "WomenClo" && valueDay == "threeDays" ) {
+                       rerenderUI(newData = [{
+                           id:1,
+                           name: "Women's Clothing",
+                           data: dataWomenClothing.slice(0,3)
+                       }])
+                   }
+                   else if ( valueCategory == "WomenClo" && valueDay == "oneDay" ) {
+                       rerenderUI(newData = [{
+                           id:1,
+                           name: "Women's Clothing",
+                           data: dataWomenClothing.slice(0,1)
+                       }])
+                   } else {
+                       console.log("Something else")
+                   }
 
-                   // rerenderUI(valueDay)
-                }
+               }
 
                 function rerenderUI(dataCategory) {
                     var seriesLength = chart.series.length;
@@ -108,63 +178,12 @@
                 function getValueCategory(){
                     var eleSelected = document.getElementById("category")
                     var valueSelected = eleSelected.options[eleSelected.selectedIndex].value;
-                    var newData;
-                    switch(valueSelected){
-                        case "MenClo":
-                            newData = [{
-                                id:1,
-                                name: nameMenClothing,
-                                data: dataMenClothing
-                            }]
-                            break;
-                        case "WomenClo":
-                            newData = [{
-                                id:1,
-                                name: nameWomenClothing,
-                                data: dataWomenClothing
-                            }
-                            ]
-                            break;
-                        default:
-                            newData = series
-                    }
-                    return newData
+                    return valueSelected
                 }
                 function getValueDays(){
                     var daySelected = document.getElementById("days")
                     var valueDay = daySelected.options[daySelected.selectedIndex].value;
-                    var dayValue;
-                    switch(valueDay){
-                        case "oneDay":
-                           dayValue = [{
-                               id:1,
-                               name: nameMenClothing,
-                               data: dataMenClothing.slice(0,1)
-                           },
-                               {
-                                   id:2,
-                                   name: nameWomenClothing,
-                                   data: dataWomenClothing.slice(0,1)
-                               }
-                           ]
-                            break;
-                        case "threeDays":
-                            dayValue = [{
-                                id:1,
-                                name: nameMenClothing,
-                                data: dataMenClothing.slice(0,3)
-                            },
-                                {
-                                    id:2,
-                                    name: nameWomenClothing,
-                                    data: dataWomenClothing.slice(0,3)
-                                }
-                            ]
-                            break;
-                        default:
-                             dayValue = series
-                    }
-                    return dayValue
+                    return valueDay
                 }
         </script>
         <script type="module">
