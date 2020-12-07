@@ -52,29 +52,29 @@
         <script type="text/javascript">
                 var chart
                 var objData = @Html(jsonData.toString())
-                var timeLine = [objData[0][0].key_as_string,objData[0][1].key_as_string,objData[0][2].key_as_string,
-                    objData[0][3].key_as_string,objData[0][4].key_as_string,objData[0][5].key_as_string,objData[0][6].key_as_string]
+
                 // One day
                 var dataMenClothing = [objData[0][0].doc_count,objData[0][1].doc_count,objData[0][2].doc_count,
                              objData[0][3].doc_count,objData[0][4].doc_count,objData[0][5].doc_count,objData[0][6].doc_count]
                 var dataWomenClothing = [objData[1][0].doc_count,objData[1][1].doc_count,objData[1][2].doc_count,objData[1][3].doc_count,
                     objData[1][4].doc_count,objData[1][5].doc_count,objData[1][6].doc_count]
-                // var oneDayTimeLine = [0,1,2,3,4,5,6];
-                var oneDayTimeLine = 1;
+                var oneDaytimeLine = [objData[0][0].key_as_string,objData[0][1].key_as_string,objData[0][2].key_as_string,
+                    objData[0][3].key_as_string,objData[0][4].key_as_string,objData[0][5].key_as_string,objData[0][6].key_as_string]
+
+
                 // Two day
                 var dataMenClothingTwo = [objData[0][0].doc_count + objData[0][1].doc_count,objData[0][2].doc_count +
                     objData[0][3].doc_count,objData[0][4].doc_count + objData[0][5].doc_count,objData[0][6].doc_count]
                 var dataWomenClothingTwo = [objData[1][0].doc_count + objData[1][1].doc_count,objData[1][2].doc_count + objData[1][3].doc_count,
                     objData[1][4].doc_count + objData[1][5].doc_count,objData[1][6].doc_count]
-                // var twoDayTimeLine = [0,2,4,6];
-                var twoDayTimeLine = 2;
+                var twoDayTimeLine = [objData[0][1].key_as_string,objData[0][3].key_as_string,objData[0][5].key_as_string,objData[0][6].key_as_string]
 
                 // Three day
                 var dataMenClothingThree = [objData[0][0].doc_count + objData[0][1].doc_count + objData[0][2].doc_count,
                     objData[0][3].doc_count + objData[0][4].doc_count + objData[0][5].doc_count,objData[0][6].doc_count]
                 var dataWomenClothingThree = [objData[1][0].doc_count + objData[1][1].doc_count + objData[1][2].doc_count,objData[1][3].doc_count +
                     objData[1][4].doc_count + objData[1][5].doc_count,objData[1][6].doc_count]
-                var threeDayTimeLine = 3;
+                var threeDayTimeLine = [objData[0][2].key_as_string,objData[0][5].key_as_string,objData[0][6].key_as_string]
 
                 var series =[{
                     id:1,
@@ -172,22 +172,41 @@
                     console.log(date)
                     console.log(cate)
                     if ( cate == "All" && date == "oneDay"){
-                        return updateUI(oneDayTimeLine)
+                        return updateUI(oneDaytimeLine,dataMenClothing,dataWomenClothing)
                     } else if (cate == "All" && date == "twoDays") {
-                        return  updateUI(twoDayTimeLine)
+                        return  updateUI(twoDayTimeLine,dataMenClothingTwo,dataWomenClothingTwo)
                     } else if (cate == "All" && date == "threeDays") {
-                        return updateUI(threeDayTimeLine)
-                    } else{
-                        console.log('Something else')
+                        return updateUI(threeDayTimeLine,dataMenClothingThree,dataWomenClothingThree)
+                    } else if ( cate == "MenClo" && date == "oneDay"){
+                        return updateUI(oneDaytimeLine,dataMenClothing,[])
+                    } else if (cate == "MenClo" && date == "twoDays") {
+                        return  updateUI(twoDayTimeLine,dataMenClothingTwo,[])
+                    } else if (cate == "MenClo" && date == "threeDays") {
+                        return updateUI(threeDayTimeLine,dataMenClothingThree,[])
+                    } else if ( cate == "WomenClo" && date == "oneDay"){
+                        return updateUI(oneDaytimeLine,[],dataWomenClothing)
+                    } else if (cate == "WomenClo" && date == "twoDays") {
+                        return  updateUI(twoDayTimeLine,[],dataWomenClothingTwo)
+                    } else if (cate == "WomenClo" && date == "threeDays") {
+                        return updateUI(threeDayTimeLine,[],dataWomenClothingThree)
+                    } else {
+                        console.log("Something else")
                     }
 
 
                 }
-                function updateUI (tickArr,dataMen,dataWomen) {
+                function updateUI (timeLine,menData,womenData) {
                    return chart.update({
                         xAxis:{
-                            tickInterval: tickArr
-                        }
+                            categories:timeLine
+                        },
+                        series:[{
+                                data: menData
+                                },
+                            {
+                                data: womenData
+                            }
+                        ]
                     })
                 }
                 // function rerenderUI(dataCategory) {
@@ -232,7 +251,7 @@
                         // accessibility: {
                         //     rangeDescription: 'Range: 2010 to 2017'
                         // }
-                        categories: timeLine,
+                        categories: oneDaytimeLine,
                         tickInterval: 1
                         // minTickInterval:24*3600*1000
                         // tickPositions: oneDayTimeLine
