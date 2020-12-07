@@ -19,8 +19,14 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
   def index = Action {
 //    val chartData = services.HttpClientExample.getData()
     val chartData1 = new HttpClientExample
-    println(chartData1.getData)
-    Ok(views.html.index( "Welcome", chartData1.getData))
+    val nameMainAggs = "category_types"
+    val fieldMainAggs = "category.keyword"
+    val nameSubAggs = "each_day"
+    val fieldSubAggs = "order_date"
+    val formatDate = "yyyy-MM-dd"
+
+    val data = chartData1.getData(nameMainAggs,fieldMainAggs,nameSubAggs,fieldSubAggs,formatDate)
+    Ok(views.html.index( "Welcome", data))
   }
 
 }

@@ -19,27 +19,18 @@ import com.sksamuel.elastic4s.{ElasticClient, ElasticProperties, RequestFailure,
 
 class HttpClientExample extends App {
   def ParseSearchResponse(searchResponse: SearchResponse) = {
-    "THIS IS PARSED DATA FROM RAW DATA"
-    //(elastic4s OR scala play framework) parse Elastic SeachResponse into Json
     val rawJson = searchResponse.aggregationsAsString
     val jsonObject:JsValue = Json.parse(rawJson)
     val menClothing = (jsonObject \ "category_types" \ "buckets" \ 0 \ "each_day" \ "buckets").get
     val womenClothing = (jsonObject \ "category_types" \ "buckets" \ 1 \ "each_day" \ "buckets").get
-//    val womenClothing = (jsonObject \ "category_types" \ "buckets" \ 1).get
-//    val menClothing = (jsonObject \ "category_types" \ "buckets" \ 0).get
-
-//    val timeLine = List((menClothing \ 0 \ "key_as_string"),(menClothing \ 1 \ "key_as_string"),(menClothing \ 2 \ "key_as_string"),(menClothing \ 3 \ "key_as_string")
-//                        ,(menClothing \ 4 \ "key_as_string"),(menClothing \ 5 \ "key_as_string"),(menClothing \ 6 \ "key_as_string"))
-//    val menDoc =  (menClothing \ 0 \ "doc_count")
-
-
     val jsonValue = Json.toJson(List(menClothing,womenClothing))
     jsonValue
 
 
   }
 
-  def getData = {
+
+  def getData(nameMainAggs:String,fieldMainAggs:String,nameSubAggs:String,fieldSubAggs:String,formatDate:String) = {
       val domain = ConfigFactory.load().getString("MY_DOMAIN")
       val props = ElasticProperties(domain)
       val client = ElasticClient(JavaClient(props))
@@ -48,8 +39,8 @@ class HttpClientExample extends App {
           search("kibana_sample_data_ecommerce")
             .size(0)
             .aggs{
-              termsAgg("category_types","category.keyword").subAggregations(
-                dateHistogramAgg("each_day","order_date").format("yyyy-MM-dd").calendarInterval(DateHistogramInterval.Day)
+              termsAgg(nameMainAggs,fieldMainAggs).subAggregations(
+                dateHistogramAgg(nameSubAggs,fieldSubAggs).format(formatDate).calendarInterval(DateHistogramInterval.Day)
               )
             }
           .sourceInclude("category","order_date")
