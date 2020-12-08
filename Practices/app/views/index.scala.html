@@ -3,7 +3,7 @@
 * message to display.
 *@
 @import play.api.libs.json.JsValue
-@(message: String,jsonData:JsValue)
+@(message: String,jsonData:Unit)
 
     @*
     * Call the `main` template with two arguments. The first
@@ -90,82 +90,7 @@
                         color: '#1473F9'
                     }
                 ]
-               // var filterData =  function() {
-               //     var valueCategory = getValueCategory();
-               //     var valueDay = getValueDays()
-               //     console.log("----Category------",valueCategory)
-               //     console.log("----Day------",valueDay)
-               //     if (valueCategory == "All" && valueDay == "sevenDays"){
-               //         rerenderUI(series)
-               //     } else if ( valueCategory == "All" && valueDay == "threeDays" ) {
-               //         rerenderUI([{
-               //             id:1,
-               //             name: "Men's Clothing" ,
-               //             data: dataMenClothing.slice(0,3)
-               //         },
-               //             {
-               //                 id:2,
-               //                 name: "Women's Clothing",
-               //                 data: dataWomenClothing.slice(0,3)
-               //             }
-               //         ])
-               //     }  else if ( valueCategory == "All" && valueDay == "oneDay" ) {
-               //         rerenderUI([{
-               //             id:1,
-               //             name: "Men's Clothing",
-               //             data: dataMenClothing.slice(0,1)
-               //         },
-               //             {
-               //                 id:2,
-               //                 name: "Women's Clothing",
-               //                 data: dataWomenClothing.slice(0,1)
-               //             }
-               //         ])
-               //     } else if ( valueCategory == "MenClo" && valueDay == "sevenDays"){
-               //         rerenderUI(newData = [{
-               //             id:1,
-               //             name: "Men's Clothing",
-               //             data: dataMenClothing
-               //         }])
-               //     } else if ( valueCategory == "MenClo" && valueDay == "threeDays" ) {
-               //         rerenderUI(newData = [{
-               //             id:1,
-               //             name: "Men's Clothing",
-               //             data: dataMenClothing.slice(0,3)
-               //         }])
-               //     }
-               //     else if ( valueCategory == "MenClo" && valueDay == "oneDay" ) {
-               //         rerenderUI(newData = [{
-               //             id:1,
-               //             name: "Men's Clothing",
-               //             data: dataMenClothing.slice(0,1)
-               //         }])
-               //     }
-               //     else if ( valueCategory == "WomenClo" && valueDay == "sevenDays" ) {
-               //         rerenderUI(newData = [{
-               //             id:1,
-               //             name: "Women's Clothing",
-               //             data: dataWomenClothing
-               //         }])
-               //     }
-               //     else if ( valueCategory == "WomenClo" && valueDay == "threeDays" ) {
-               //         rerenderUI(newData = [{
-               //             id:1,
-               //             name: "Women's Clothing",
-               //             data: dataWomenClothing.slice(0,3)
-               //         }])
-               //     }
-               //     else if ( valueCategory == "WomenClo" && valueDay == "oneDay" ) {
-               //         rerenderUI(newData = [{
-               //             id:1,
-               //             name: "Women's Clothing",
-               //             data: dataWomenClothing.slice(0,1)
-               //         }])
-               //     } else {
-               //         console.log("Something else")
-               //     }
-               //
-               // }
+
                 var filterData = function () {
                     var date = getValueDays();
                     var cate = getValueCategory();
@@ -209,16 +134,6 @@
                         ]
                     })
                 }
-                // function rerenderUI(dataCategory) {
-                //     var seriesLength = chart.series.length;
-                //
-                //     for(var i = 1; i <= seriesLength ; i++){
-                //         chart.get(i).remove();
-                //     }
-                //     for (var y = dataCategory.length-1; y >= 0; y--) {
-                //         chart.addSeries(dataCategory[y]);
-                //     }
-                // }
 
                 function getValueCategory(){
                     var eleSelected = document.getElementById("category")
@@ -248,20 +163,9 @@
                     },
                     xAxis: {
                         type: 'datetime',
-                        // accessibility: {
-                        //     rangeDescription: 'Range: 2010 to 2017'
-                        // }
                         categories: oneDaytimeLine,
                         tickInterval: 1
-                        // minTickInterval:24*3600*1000
-                        // tickPositions: oneDayTimeLine
                     },
-                 // plotOptions: {
-                 //     series: {
-                 //         pointStart: Date.UTC(2010, 11, 12),
-                 //         pointInterval: 24 * 3600 * 1000 // one day
-                 //     }
-                 // },
 
                     legend: {
                         layout: 'horizontal',

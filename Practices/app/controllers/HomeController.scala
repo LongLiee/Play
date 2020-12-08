@@ -1,5 +1,6 @@
 package controllers
 import services.HttpClientExample
+import services.HttpClient
 import javax.inject._
 import play.api.mvc._
 import play.api.libs._
@@ -19,14 +20,15 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
   def index = Action {
 //    val chartData = services.HttpClientExample.getData()
     val chartData1 = new HttpClientExample
+    val chartDataTest = new HttpClient
     val nameMainAggs = "category_types"
     val fieldMainAggs = "category.keyword"
     val nameSubAggs = "each_day"
     val fieldSubAggs = "order_date"
     val formatDate = "yyyy-MM-dd"
-
+    val newData =chartDataTest.getData()
     val data = chartData1.getData(nameMainAggs,fieldMainAggs,nameSubAggs,fieldSubAggs,formatDate)
-    Ok(views.html.index( "Welcome", data))
+    Ok(views.html.index( "Welcome", newData))
   }
 
 }
