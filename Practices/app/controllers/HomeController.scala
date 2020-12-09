@@ -4,6 +4,9 @@ import services.HttpClient
 import javax.inject._
 import play.api.mvc._
 import play.api.libs._
+import play.api.libs.json.JsValue
+import services.HttpClient
+
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
@@ -17,18 +20,34 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-  def index = Action {
+  def index() = Action {
 //    val chartData = services.HttpClientExample.getData()
-    val chartData1 = new HttpClientExample
+//    val chartData1 = new HttpClientExample
     val chartDataTest = new HttpClient
-    val nameMainAggs = "category_types"
-    val fieldMainAggs = "category.keyword"
-    val nameSubAggs = "each_day"
-    val fieldSubAggs = "order_date"
-    val formatDate = "yyyy-MM-dd"
+
     val newData =chartDataTest.getData()
-    val data = chartData1.getData(nameMainAggs,fieldMainAggs,nameSubAggs,fieldSubAggs,formatDate)
+//    val data = chartData1.getData(nameMainAggs,fieldMainAggs,nameSubAggs,fieldSubAggs,formatDate)
     Ok(views.html.index( "Welcome", newData))
   }
+
+    def postData = Action { request: Request[AnyContent] =>
+      val body: AnyContent          = request.body
+      val jsonBody: Option[JsValue] = body.asJson
+
+      // Expecting json body
+      jsonBody
+        .map { json =>
+          Ok("Got: " + json)
+        }
+        .getOrElse {
+          BadRequest("Expecting application/json request body")
+        }
+    }
+
+
+
+
+
+
 
 }

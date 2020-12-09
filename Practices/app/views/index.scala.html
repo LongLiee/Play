@@ -13,6 +13,7 @@
    @* @main("Welcome to Play", welcome(message, style = "scala"),chartData)) {
 
     }*@
+@import helper._
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -21,6 +22,7 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
         <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <figure class="highcharts-figure">
@@ -31,27 +33,58 @@
                 enhanced readability.
             </p>
         </figure>
+
         <div class="select--tag">
-            <select id="category" >
-                <option value="All">All category</option>
-                <option value="MenClo">Men's Clothing</option>
-                <option value="WomenClo">Women's Clothing</option>
-            </select>
-@*            <select id="days">*@
-@*                <option value="sevenDays">7 days</option>*@
-@*                <option value="threeDays">3 days</option>*@
-@*                <option value="oneDay">1 day</option>*@
-@*            </select>*@
-            <select id="days">
-                <option value="oneDay">1 day</option>
-                <option value="twoDays">2 days</option>
-                <option value="threeDays">3 days</option>
-            </select>
+<!--            <form id="myForm" action="postData" method="post">-->
+                <select id="category" >
+                    <option  value="All">All category</option>
+                    <option value="MenClo">Men's Clothing</option>
+                    <option value="WomenClo">Women's Clothing</option>
+                </select>
+                <select id="days">
+                    <option value="oneDay">1 day</option>
+                    <option value="twoDays">2 days</option>
+                    <option value="threeDays">3 days</option>
+                </select>
+<!--                <label for="fname">First name:</label><br>-->
+<!--                <input type="text" id="fname" name="fname"><br>-->
+<!--                <label for="lname">Last name:</label><br>-->
+<!--                <input type="text" id="lname" name="lname">-->
+<!--                <input type="submit">-->
+<!--            </form>-->
+
+
+
         </div>
-     <button onclick="filterData()">Apply</button>
+     <button onclick="getValue()">Apply</button>
         <script type="text/javascript">
+              var getValue = function() {
+                        var date = getValueDays();
+                        var cate = getValueCategory();
+                        var dataJs =  {
+                                category: cate,
+                                day: date
+                              }
+                        var dataJson = JSON.stringify(dataJs)
+                         $.ajax({
+                                type: "POST",
+                                url: "postData",
+                                data: dataJson ,
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (msg) {
+                                   console.log(msg)
+                                },
+                                error: function (errormessage) {
+                                    console.log(errormessage)
+                                }
+                            });
+                }
+
+
+
                 var chart
-                var objData = @Html(jsonData.toString())
+               //var objData = @Html(jsonData.toString())
 
                 // One day
                 var dataMenClothing = [objData[0][0].doc_count,objData[0][1].doc_count,objData[0][2].doc_count,
@@ -90,6 +123,13 @@
                         color: '#1473F9'
                     }
                 ]
+
+
+
+
+
+
+
 
                 var filterData = function () {
                     var date = getValueDays();

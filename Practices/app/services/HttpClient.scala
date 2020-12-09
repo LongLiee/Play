@@ -19,6 +19,10 @@ class HttpClient extends App {
     val domain = ConfigFactory.load().getString("MY_DOMAIN")
     val props = ElasticProperties(domain)
     val client = ElasticClient(JavaClient(props))
+//    val typeCategory = (jsValue \ "category").get
+//    val typeDate = (jsValue \ "day").get
+//    println(typeCategory)
+//    println(typeDate)
 //    var query = ""
 //    if(column == "") {
 //      query = "(Men's Clothing) OR (Women's Clothing)"
@@ -40,7 +44,7 @@ class HttpClient extends App {
 
 
     println("---------------Result------------")
-        println(rawData.result.aggregationsAsString)
+//        println(rawData.result.aggregationsAsString)
 //    rawData.result
 
 
@@ -50,5 +54,6 @@ class HttpClient extends App {
     //    dataExp.result.hits.total.value
 
   }
+
 
 }
