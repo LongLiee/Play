@@ -1,19 +1,6 @@
-@*
-* This template takes a single argument, a String containing a
-* message to display.
-*@
-@import play.api.libs.json.JsValue
-@(message: String,jsonData:Unit)
+@import play.api.libs.json._
+@(message: String,jsonData:JsValue)
 
-    @*
-    * Call the `main` template with two arguments. The first
-    * argument is a `String` with the title of the page, the second
-    * argument is an `Html` object containing the body of the page.
-    *@
-   @* @main("Welcome to Play", welcome(message, style = "scala"),chartData)) {
-
-    }*@
-@import helper._
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -58,119 +45,126 @@
         </div>
      <button onclick="getValue()">Apply</button>
         <script type="text/javascript">
-              var getValue = function() {
-                        var date = getValueDays();
-                        var cate = getValueCategory();
-                        var dataJs =  {
-                                category: cate,
-                                day: date
-                              }
-                        var dataJson = JSON.stringify(dataJs)
-                         $.ajax({
-                                type: "POST",
-                                url: "postData",
-                                data: dataJson ,
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                success: function (msg) {
-                                   console.log(msg)
-                                },
-                                error: function (errormessage) {
-                                    console.log(errormessage)
-                                }
-                            });
-                }
-
-
-
-                var chart
-               //var objData = @Html(jsonData.toString())
+                var chart;
+                var objData = @Html(jsonData.toString());
+                console.log(objData);
 
                 // One day
-                var dataMenClothing = [objData[0][0].doc_count,objData[0][1].doc_count,objData[0][2].doc_count,
-                             objData[0][3].doc_count,objData[0][4].doc_count,objData[0][5].doc_count,objData[0][6].doc_count]
-                var dataWomenClothing = [objData[1][0].doc_count,objData[1][1].doc_count,objData[1][2].doc_count,objData[1][3].doc_count,
-                    objData[1][4].doc_count,objData[1][5].doc_count,objData[1][6].doc_count]
-                var oneDaytimeLine = [objData[0][0].key_as_string,objData[0][1].key_as_string,objData[0][2].key_as_string,
-                    objData[0][3].key_as_string,objData[0][4].key_as_string,objData[0][5].key_as_string,objData[0][6].key_as_string]
+                // var dataMenClothing = [objData[0][0].doc_count,objData[0][1].doc_count,objData[0][2].doc_count,
+                //              objData[0][3].doc_count,objData[0][4].doc_count,objData[0][5].doc_count,objData[0][6].doc_count]
+                // var dataWomenClothing = [objData[1][0].doc_count,objData[1][1].doc_count,objData[1][2].doc_count,objData[1][3].doc_count,
+                //     objData[1][4].doc_count,objData[1][5].doc_count,objData[1][6].doc_count]
+                var oneDaytimeLine = ["12-12-2020","13-12-2020","14-12-2020","15-12-2020","16-12-2020","17-12-2020","18-12-2020"]
+                var twoDaytimeLine = ["13-12-2020","15-12-2020","17-12-2020","18-12-2020"]
+                var threeDaytimeLine = ["14-12-2020","17-12-2020","18-12-2020"]
 
 
                 // Two day
-                var dataMenClothingTwo = [objData[0][0].doc_count + objData[0][1].doc_count,objData[0][2].doc_count +
-                    objData[0][3].doc_count,objData[0][4].doc_count + objData[0][5].doc_count,objData[0][6].doc_count]
-                var dataWomenClothingTwo = [objData[1][0].doc_count + objData[1][1].doc_count,objData[1][2].doc_count + objData[1][3].doc_count,
-                    objData[1][4].doc_count + objData[1][5].doc_count,objData[1][6].doc_count]
-                var twoDayTimeLine = [objData[0][1].key_as_string,objData[0][3].key_as_string,objData[0][5].key_as_string,objData[0][6].key_as_string]
+                // var dataMenClothingTwo = [objData[0][0].doc_count + objData[0][1].doc_count,objData[0][2].doc_count +
+                //     objData[0][3].doc_count,objData[0][4].doc_count + objData[0][5].doc_count,objData[0][6].doc_count]
+                // var dataWomenClothingTwo = [objData[1][0].doc_count + objData[1][1].doc_count,objData[1][2].doc_count + objData[1][3].doc_count,
+                //     objData[1][4].doc_count + objData[1][5].doc_count,objData[1][6].doc_count]
+                // var twoDayTimeLine = [objData[0][1].key_as_string,objData[0][3].key_as_string,objData[0][5].key_as_string,objData[0][6].key_as_string]
 
                 // Three day
-                var dataMenClothingThree = [objData[0][0].doc_count + objData[0][1].doc_count + objData[0][2].doc_count,
-                    objData[0][3].doc_count + objData[0][4].doc_count + objData[0][5].doc_count,objData[0][6].doc_count]
-                var dataWomenClothingThree = [objData[1][0].doc_count + objData[1][1].doc_count + objData[1][2].doc_count,objData[1][3].doc_count +
-                    objData[1][4].doc_count + objData[1][5].doc_count,objData[1][6].doc_count]
-                var threeDayTimeLine = [objData[0][2].key_as_string,objData[0][5].key_as_string,objData[0][6].key_as_string]
+                // var dataMenClothingThree = [objData[0][0].doc_count + objData[0][1].doc_count + objData[0][2].doc_count,
+                //     objData[0][3].doc_count + objData[0][4].doc_count + objData[0][5].doc_count,objData[0][6].doc_count]
+                // var dataWomenClothingThree = [objData[1][0].doc_count + objData[1][1].doc_count + objData[1][2].doc_count,objData[1][3].doc_count +
+                //     objData[1][4].doc_count + objData[1][5].doc_count,objData[1][6].doc_count]
+                // var threeDayTimeLine = [objData[0][2].key_as_string,objData[0][5].key_as_string,objData[0][6].key_as_string]
 
                 var series =[{
-                    id:1,
-                    name: "Men's Clothing",
-                    data: dataMenClothing,
-                    color:'#FF0000'
+                    name: "Men's Clothing && Women's Clothing",
+                    data: objData,
+                    color: "#cb4934"
+                }]
 
-                },
-                    {
-                        id:2,
-                        name: "Women's Clothing",
-                        data: dataWomenClothing,
-                        color: '#1473F9'
-                    }
-                ]
-
-
-
-
-
-
-
-
-                var filterData = function () {
+                var getValue = function() {
                     var date = getValueDays();
                     var cate = getValueCategory();
-                    console.log(date)
-                    console.log(cate)
+                    var dataJs =  {
+                        category: cate,
+                        day: date
+                    }
+                    var dataJson = JSON.stringify(dataJs)
+                    $.ajax({
+                        url: "/postData",
+                        cache: false,
+                        data: dataJson,
+                        type: "POST",
+                        contentType: "application/json",
+                        dataType: "json",
+
+                        success: function (data) {
+                            date = getValueDays();
+                            cate = getValueCategory();
+                            filterData(cate,date,data)
+
+                        },
+                        error: function (errormessage) {
+                            console.log(errormessage)
+                            console.log("Failed")
+                        },
+                        complete: function (){
+                            console.log("Testing")
+                        }
+                    });
+
+                }
+
+
+                var filterData = function (cate,date,data) {
                     if ( cate == "All" && date == "oneDay"){
-                        return updateUI(oneDaytimeLine,dataMenClothing,dataWomenClothing)
+                        return updateUI(oneDaytimeLine,data,"#cb4934","Men's Clothing && Women's Clothing")
                     } else if (cate == "All" && date == "twoDays") {
-                        return  updateUI(twoDayTimeLine,dataMenClothingTwo,dataWomenClothingTwo)
+                        var obj = {
+                            new: [data[0],data[2],data[4],data[6]]
+                        }
+                        return  updateUI(twoDaytimeLine,obj.new,"#cb4934","Men's Clothing && Women's Clothing")
                     } else if (cate == "All" && date == "threeDays") {
-                        return updateUI(threeDayTimeLine,dataMenClothingThree,dataWomenClothingThree)
+                        var obj = {
+                            new: [data[0],data[3],data[6]]
+                        }
+                        return updateUI(threeDaytimeLine,obj.new,"#cb4934","Men's Clothing && Women's Clothing")
                     } else if ( cate == "MenClo" && date == "oneDay"){
-                        return updateUI(oneDaytimeLine,dataMenClothing,[])
+                        return updateUI(oneDaytimeLine,data,"#3a4fc5","Men's Clothing")
                     } else if (cate == "MenClo" && date == "twoDays") {
-                        return  updateUI(twoDayTimeLine,dataMenClothingTwo,[])
+                        var obj = {
+                            new: [data[0],data[2],data[4],data[6]]
+                        }
+                        return  updateUI(twoDaytimeLine,obj.new,"#3a4fc5","Men's Clothing")
                     } else if (cate == "MenClo" && date == "threeDays") {
-                        return updateUI(threeDayTimeLine,dataMenClothingThree,[])
+                        var obj = {
+                            new: [data[0],data[3],data[6]]
+                        }
+                        return updateUI(threeDaytimeLine,obj.new,"#3a4fc5","Men's Clothing")
                     } else if ( cate == "WomenClo" && date == "oneDay"){
-                        return updateUI(oneDaytimeLine,[],dataWomenClothing)
+                        return updateUI(oneDaytimeLine,data,"#a15f5e","Women's Clothing")
                     } else if (cate == "WomenClo" && date == "twoDays") {
-                        return  updateUI(twoDayTimeLine,[],dataWomenClothingTwo)
+                        var obj = {
+                            new: [data[0],data[2],data[4],data[6]]
+                        }
+                        return  updateUI(twoDaytimeLine,obj.new,"#a15f5e","Women's Clothing")
                     } else if (cate == "WomenClo" && date == "threeDays") {
-                        return updateUI(threeDayTimeLine,[],dataWomenClothingThree)
+                        var obj = {
+                            new: [data[0],data[3],data[6]]
+                        }
+                        return updateUI(threeDaytimeLine,obj.new,"#a15f5e","Women's Clothing")
                     } else {
                         console.log("Something else")
                     }
 
-
                 }
-                function updateUI (timeLine,menData,womenData) {
+                function updateUI (timeLine,data,color,chartName) {
                    return chart.update({
                         xAxis:{
                             categories:timeLine
                         },
                         series:[{
-                                data: menData
-                                },
-                            {
-                                data: womenData
-                            }
+                                name: chartName,
+                                data: data,
+                                color:color
+                                }
                         ]
                     })
                 }
@@ -204,7 +198,7 @@
                     xAxis: {
                         type: 'datetime',
                         categories: oneDaytimeLine,
-                        tickInterval: 1
+
                     },
 
                     legend: {
