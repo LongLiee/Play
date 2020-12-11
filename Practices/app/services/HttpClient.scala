@@ -24,53 +24,32 @@ class HttpClient extends App {
     if (json == null){
       queryString = "(Men's Clothing) OR (Women's Clothing)"
     } else {
-          val typeCategory = (json \ "category").as[String]
-          val typeDate = (json \ "day").as[String]
-      println(typeCategory)
-      println(typeDate)
-      if ( typeCategory == "MenClo" && typeDate == "oneDay"){
-            queryString = "(Men's Clothing)"
-      }
-      else if (typeCategory == "MenClo" && typeDate == "twoDays"){
-          queryString = "(Men's Clothing)"
-          queryNum = 172800
-      } else if (typeCategory == "MenClo" && typeDate == "threeDays"){
-        queryString = "(Men's Clothing)"
-        queryNum = 259200
-      } else if ( typeCategory == "WomenClo" && typeDate == "oneDay"){
-        queryString = "(Women's Clothing)"
-      } else if (typeCategory == "WomenClo" && typeDate == "twoDays"){
-        queryString = "(Women's Clothing)"
-        queryNum = 172800
-      } else if (typeCategory == "WomenClo" && typeDate == "threeDays"){
-        queryString = "(Women's Clothing)"
-        queryNum = 259200
-      }else if ( typeCategory == "All" && typeDate == "oneDay"){
-        queryString = "(Men's Clothing) OR (Women's Clothing)"
-      } else if (typeCategory == "All" && typeDate == "twoDays"){
-        queryString = "(Men's Clothing) OR (Women's Clothing)"
-        queryNum = 172800
-      } else if (typeCategory == "All" && typeDate == "threeDays"){
-        queryString = "(Men's Clothing) OR (Women's Clothing)"
-        queryNum = 259200
-      }
+      val typeCategory = (json \ "category").as[String]
+      val typeDate = (json \ "day").as[String]
+      queryString = typeCategory
+      queryNum = typeDate.toInt
     }
 
 
-
-    val rawData = client.execute {
-      search("kibana_sample_data_ecommerce")
-        .size(0)
-        .query(queryStringQuery(queryString).defaultField("category.keyword"))
-        .aggs{
-          dateHistogramAgg("each_day","order_date").format("yyyy-MM-dd").fixedInterval(queryNum)
-        }
-        .sourceInclude("category","order_date")
-    }.await
+    val query = search("kibana_sample_data_ecommerce")
+      .size(0)
+      .query(queryStringQuery(queryString).defaultField("category.keyword"))
+      .aggs{
+        dateHistogramAgg("each_day","order_date").format("yyyy-MM-dd").fixedInterval(queryNum)
+      }
+      .sourceInclude("category","order_date")
 
 
-    println("---------------Result------------")
-    println(rawData.result.aggregationsAsString)
+    val rawData = client.execute(query).await
+
+    /*val showQuery = search("kibana_sample_data_ecommerce").query(queryStringQuery("(Men's Clothing) OR (Women's Clothing)").defaultField("category.keyword"))
+    println("---------------HttpClient------------")
+    client.show(showQuery)*/
+
+
+
+
+//    println(rawData.result.aggregationsAsString)
     handleData(rawData.result.aggregationsAsString)
 
 

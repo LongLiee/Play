@@ -22,62 +22,47 @@
         </figure>
 
         <div class="select--tag">
-<!--            <form id="myForm" action="postData" method="post">-->
+
                 <select id="category" >
-                    <option  value="All">All category</option>
-                    <option value="MenClo">Men's Clothing</option>
-                    <option value="WomenClo">Women's Clothing</option>
+                    <option  value="(Men's Clothing) OR (Women's Clothing)">All category</option>
+                    <option value="(Men's Clothing)">Men's Clothing</option>
+                    <option value="(Women's Clothing)">Women's Clothing</option>
                 </select>
                 <select id="days">
-                    <option value="oneDay">1 day</option>
-                    <option value="twoDays">2 days</option>
-                    <option value="threeDays">3 days</option>
+                    <option value=86400>1 day</option>
+                    <option value=172800>2 days</option>
+                    <option value=259200>3 days</option>
                 </select>
-<!--                <label for="fname">First name:</label><br>-->
-<!--                <input type="text" id="fname" name="fname"><br>-->
-<!--                <label for="lname">Last name:</label><br>-->
-<!--                <input type="text" id="lname" name="lname">-->
-<!--                <input type="submit">-->
-<!--            </form>-->
+
 
 
 
         </div>
      <button onclick="getValue()">Apply</button>
+        <button onclick="testValue()">Click</button>
         <script type="text/javascript">
                 var chart;
                 var objData = @Html(jsonData.toString());
                 console.log(objData);
 
-                // One day
-                // var dataMenClothing = [objData[0][0].doc_count,objData[0][1].doc_count,objData[0][2].doc_count,
-                //              objData[0][3].doc_count,objData[0][4].doc_count,objData[0][5].doc_count,objData[0][6].doc_count]
-                // var dataWomenClothing = [objData[1][0].doc_count,objData[1][1].doc_count,objData[1][2].doc_count,objData[1][3].doc_count,
-                //     objData[1][4].doc_count,objData[1][5].doc_count,objData[1][6].doc_count]
                 var oneDaytimeLine = ["12-12-2020","13-12-2020","14-12-2020","15-12-2020","16-12-2020","17-12-2020","18-12-2020"]
                 var twoDaytimeLine = ["13-12-2020","15-12-2020","17-12-2020","18-12-2020"]
                 var threeDaytimeLine = ["14-12-2020","17-12-2020","18-12-2020"]
 
 
-                // Two day
-                // var dataMenClothingTwo = [objData[0][0].doc_count + objData[0][1].doc_count,objData[0][2].doc_count +
-                //     objData[0][3].doc_count,objData[0][4].doc_count + objData[0][5].doc_count,objData[0][6].doc_count]
-                // var dataWomenClothingTwo = [objData[1][0].doc_count + objData[1][1].doc_count,objData[1][2].doc_count + objData[1][3].doc_count,
-                //     objData[1][4].doc_count + objData[1][5].doc_count,objData[1][6].doc_count]
-                // var twoDayTimeLine = [objData[0][1].key_as_string,objData[0][3].key_as_string,objData[0][5].key_as_string,objData[0][6].key_as_string]
 
-                // Three day
-                // var dataMenClothingThree = [objData[0][0].doc_count + objData[0][1].doc_count + objData[0][2].doc_count,
-                //     objData[0][3].doc_count + objData[0][4].doc_count + objData[0][5].doc_count,objData[0][6].doc_count]
-                // var dataWomenClothingThree = [objData[1][0].doc_count + objData[1][1].doc_count + objData[1][2].doc_count,objData[1][3].doc_count +
-                //     objData[1][4].doc_count + objData[1][5].doc_count,objData[1][6].doc_count]
-                // var threeDayTimeLine = [objData[0][2].key_as_string,objData[0][5].key_as_string,objData[0][6].key_as_string]
 
                 var series =[{
                     name: "Men's Clothing && Women's Clothing",
                     data: objData,
                     color: "#cb4934"
                 }]
+
+                var testValue = function (){
+                    console.log("click")
+                }
+
+
 
                 var getValue = function() {
                     var date = getValueDays();
@@ -96,56 +81,59 @@
                         dataType: "json",
 
                         success: function (data) {
-                            date = getValueDays();
-                            cate = getValueCategory();
+                            // date = getValueDays();
+                            // cate = getValueCategory();
                             filterData(cate,date,data)
 
                         },
                         error: function (errormessage) {
                             console.log(errormessage)
                             console.log("Failed")
-                        },
-                        complete: function (){
-                            console.log("Testing")
                         }
+
                     });
 
                 }
-
+                var all = "(Men's Clothing) OR (Women's Clothing)"
+                var menClo = "(Men's Clothing)"
+                var womenClo = "(Women's Clothing)"
+                var oneDay = "86400"
+                var twoDay = "172800"
+                var threeDay = "259200"
 
                 var filterData = function (cate,date,data) {
-                    if ( cate == "All" && date == "oneDay"){
+                    if ( cate == all && date == oneDay){
                         return updateUI(oneDaytimeLine,data,"#cb4934","Men's Clothing && Women's Clothing")
-                    } else if (cate == "All" && date == "twoDays") {
+                    } else if (cate === all && date === twoDay) {
                         var obj = {
                             new: [data[0],data[2],data[4],data[6]]
                         }
                         return  updateUI(twoDaytimeLine,obj.new,"#cb4934","Men's Clothing && Women's Clothing")
-                    } else if (cate == "All" && date == "threeDays") {
+                    } else if (cate == all && date == threeDay) {
                         var obj = {
                             new: [data[0],data[3],data[6]]
                         }
                         return updateUI(threeDaytimeLine,obj.new,"#cb4934","Men's Clothing && Women's Clothing")
-                    } else if ( cate == "MenClo" && date == "oneDay"){
+                    } else if ( cate == menClo && date == oneDay){
                         return updateUI(oneDaytimeLine,data,"#3a4fc5","Men's Clothing")
-                    } else if (cate == "MenClo" && date == "twoDays") {
+                    } else if (cate == menClo && date == twoDay) {
                         var obj = {
                             new: [data[0],data[2],data[4],data[6]]
                         }
                         return  updateUI(twoDaytimeLine,obj.new,"#3a4fc5","Men's Clothing")
-                    } else if (cate == "MenClo" && date == "threeDays") {
+                    } else if (cate == menClo && date == threeDay) {
                         var obj = {
                             new: [data[0],data[3],data[6]]
                         }
                         return updateUI(threeDaytimeLine,obj.new,"#3a4fc5","Men's Clothing")
-                    } else if ( cate == "WomenClo" && date == "oneDay"){
+                    } else if ( cate == womenClo && date == oneDay){
                         return updateUI(oneDaytimeLine,data,"#a15f5e","Women's Clothing")
-                    } else if (cate == "WomenClo" && date == "twoDays") {
+                    } else if (cate == womenClo && date == twoDay) {
                         var obj = {
                             new: [data[0],data[2],data[4],data[6]]
                         }
                         return  updateUI(twoDaytimeLine,obj.new,"#a15f5e","Women's Clothing")
-                    } else if (cate == "WomenClo" && date == "threeDays") {
+                    } else if (cate == womenClo && date == threeDay) {
                         var obj = {
                             new: [data[0],data[3],data[6]]
                         }
