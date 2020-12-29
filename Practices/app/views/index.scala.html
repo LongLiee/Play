@@ -101,6 +101,8 @@
                 var twoDay = "172800"
                 var threeDay = "259200"
 
+                var storeValue = [all,menClo,oneDay,twoDay,threeDay]
+
                 var filterData = function (cate,date,data) {
                     if ( cate == all && date == oneDay){
                         return updateUI(oneDaytimeLine,data,"#cb4934","Men's Clothing && Women's Clothing")
@@ -156,6 +158,7 @@
                         ]
                     })
                 }
+
 
                 function getValueCategory(){
                     var eleSelected = document.getElementById("category")

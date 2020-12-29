@@ -49,7 +49,7 @@ class HttpClient extends App {
 
 
 
-//    println(rawData.result.aggregationsAsString)
+    println(rawData.result.aggregationsAsString)
     handleData(rawData.result.aggregationsAsString)
 
 
