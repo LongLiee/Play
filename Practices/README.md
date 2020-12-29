@@ -22,33 +22,32 @@
 ```
 **Response:**  
 	*1. Success:* Show noti as json  
-	   ```
+```
 	   {  
 	  	"code": 200,  
 		"message": "Data inserted"  
 	   }  
-	   ```
+```
 	*2. Error:*  
 	   - Missing of wrong parameter/field:  
-	   ```
+```
 	   {  
 	  	"code": 400,  
 		"message": "Wrong or missing parameter"    
 	   }  
-	   ```
+```
 	   - Data insert duplicate:   
-	   ```
+```
 	   {  
 	        "code": 400,   
 	        "message": "Data duplicated"  
 	   }  
-	   ``` 
+``` 
 	   - Empty body with POST method:  
-           ```
+
+```
 	   {  
 		"code": 400,   
 		"message": "Empty body"   
 	   }  
-	   ```
-
-
+```
