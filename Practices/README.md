@@ -58,6 +58,7 @@
 ## 2. CSMR
 ###### Get contract Data by Date
 -***EndPoint:*** /getContractByDate?date=2020-12-01  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/csmr/getContractByDate?date=2020-12-22  
 -***Method:*** GET  
 -***Parameter:***  
 - *** date=YYYY-MM-DD _(string)_ ***  
@@ -75,6 +76,7 @@
 	   }  
 ```
 -***EndPoint:*** /getDupContractByDate?date=2020-12-22  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/csmr/getDupContractByDate?date=2020-12-22  
 -***Method:*** GET  
 -***Parameter:***  
 - *** date=YYYY-MM-DD _(string)_ ***  
@@ -93,7 +95,8 @@
 ```
 ## 3. SCC
 ###### Get contract Data
--***EndPoint:*** /getContractData?contract=BNFD32739
+-***EndPoint:*** /getContractData?contract=BNFD32739  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/scc/getContractData?contract=BNFD32739  
 -***Method:*** GET  
 -***Parameter:***  
 - *** contract _(string)_ ***  
@@ -112,5 +115,67 @@
 ```
 	   ERROR! Missing Contract 
 ```
+## 4. Internet
+###### Predict leaving the internet
+-***EndPoint:*** /  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/internet/churn/predict  
+-***Method:*** GET  
+-***Parameter:***  
+- *** month=YYYY-MM _(string)_ ***  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+	    {
+		Contract  : "HNH337270", 
+    		ID: 3
+	    },
+	    ...	
+```
 
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	   {"data": "Something went wrong!", "code": 400}  
+```
+-***Flow process data:***  
+- Check if current date is less than 14th of month, set import_date = 2 days of month  
+- Else, set import_date = 14th of month  
+==> Ex: current date= ‘2019-09-13' -> import_date = ‘2019-09-02'  
+current date= ‘2019-09-16' -> import_date = ‘2019-09-14'  
+## 4. Potential Client
+###### Get Potential Client
+-***EndPoint:*** /  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/client/getClientByMonth?contract=AGD003838&month=2020-06  
+-***Method:*** GET  
+-***Parameter:***  
+- contract _(string)_  
+- month=YYYY-MM _(string)_  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+	    {
+		"code":200,  
+
+		   "message":"success", 
+
+		   "data":true, 
+
+		   "result":{ 
+
+		      "contract": “AGD003838”, 
+
+		      "region": “Vung 7”,      
+
+		      "location": “An Giang”, 
+
+		      "nhucauSd": “rat_cao”, 
+
+		      “group” : 4 
+		      }
+	    }	
+```
+
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	   {"code": 400, "data": "Something went wrong!"}  
+```
 
