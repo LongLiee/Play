@@ -21,7 +21,7 @@
 	} 	
 ```
 **Response:**  
-	1. Success:  
+&nbsp;&nbsp;&nbsp;- Success:  
 ```
 	   - Show noti as json
 
@@ -31,7 +31,7 @@
 	   }  
 ```
 
-	2. Error:  
+&nbsp;&nbsp;&nbsp;- Error:  
 ```
 	   - Missing of wrong parameter/field:  
 
