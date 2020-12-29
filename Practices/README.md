@@ -1,29 +1,25 @@
 # API document
 
 ## Record Tracking
--EndPoint: /postTotalRecord (GET,POST)  
--Source: http://git.bigdata.local/data-engineers/ftel-api.Branch: record-tracking-0.0.1  
--Method: GET/POST  
--Format response: Parameter/json  
--Parameter:  
+-***EndPoint:*** /postTotalRecord (GET,POST)  
+-***Source:*** http://git.bigdata.local/data-engineers/ftel-api.Branch: record-tracking-0.0.1  
+-***Method:*** GET/POST  
+-***Format response:*** Parameter/json  
+-***Parameter:***  
 	- ***As GET method:***  
-	_ name: (string)  
-	_ dataDate: a string format “yyyy-mm-dd”  
-	_ total: (int)  
-	_ source: (string)  
+	*_ name:* (string)  
+	*_ dataDate:* a string format “yyyy-mm-dd”  
+	*_ total:* (int)  
+	*_ source:* (string)  
 	- ***As POST method:***  
-	```
- 	   {  
-		"name":"name1",     
-
-		"dataDate": "2020-11-01",  
-
-		"total": 3,   
-
-		"source":"source1"  
-	   }  
-	```
-
+```
+ 	{ 
+	  "name":"name1", 
+	  "dataDate": "2020-11-01", 
+	  "total": 3, 
+	  "source":"source1" 
+	} 	
+```
 **Response:**  
 	*1. Success:* Show noti as json  
 	   ```
