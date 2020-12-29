@@ -21,15 +21,18 @@
 	} 	
 ```
 **Response:**  
+	1. Success:  
 ```
-	1. Success: Show noti as json  
+	   - Show noti as json
 
 	   {  
 	  	"code": 200,  
 		"message": "Data inserted"  
 	   }  
+```
 
 	2. Error:  
+```
 	   - Missing of wrong parameter/field:  
 
 	   {  
