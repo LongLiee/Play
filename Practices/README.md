@@ -1,6 +1,7 @@
 # API document
 
 ## 1. Record Tracking
+###### Insert data into DB from user input
 -***EndPoint:*** /postTotalRecord (GET,POST)  
 -***Source:*** http://git.bigdata.local/data-engineers/ftel-api.Branch: record-tracking-0.0.1  
 -***Method:*** GET/POST  
@@ -55,6 +56,7 @@
 	   }  
 ```
 ## 2. CSMR
+###### Get contract Data by Date
 -***EndPoint:*** /getContractByDate?date=2020-12-01  
 -***Method:*** GET  
 -***Parameter:***  
@@ -89,4 +91,26 @@
 		"message": "Wrong or missing parameter"    
 	   }  
 ```
+## 3. SCC
+###### Get contract Data
+-***EndPoint:*** /getContractData?contract=BNFD32739
+-***Method:*** GET  
+-***Parameter:***  
+- *** contract _(string)_ ***  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+	    {
+	  	"Ip": "20.121.14.1",
+	  	"Profile": "Fiber-F6-HD",
+	  	"PortID": "3",
+	  	"Macaddress": "ec:84:b4:32:d3:8e"
+	    }	
+```
+
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	   ERROR! Missing Contract 
+```
+
 
