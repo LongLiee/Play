@@ -1,6 +1,6 @@
 # API document
 
-## Record Tracking
+## 1.Record Tracking
 -***EndPoint:*** /postTotalRecord (GET,POST)  
 -***Source:*** http://git.bigdata.local/data-engineers/ftel-api.Branch: record-tracking-0.0.1  
 -***Method:*** GET/POST  
@@ -21,31 +21,31 @@
 	} 	
 ```
 **Response:**  
-	*1. Success:* Show noti as json  
 ```
+	1. Success: Show noti as json  
+
 	   {  
 	  	"code": 200,  
 		"message": "Data inserted"  
 	   }  
-```
-	*2. Error:*  
+
+	2. Error:  
 	   - Missing of wrong parameter/field:  
-```
+
 	   {  
 	  	"code": 400,  
 		"message": "Wrong or missing parameter"    
 	   }  
-```
+
 	   - Data insert duplicate:   
-```
+
 	   {  
 	        "code": 400,   
 	        "message": "Data duplicated"  
 	   }  
-``` 
+
 	   - Empty body with POST method:  
 
-```
 	   {  
 		"code": 400,   
 		"message": "Empty body"   
