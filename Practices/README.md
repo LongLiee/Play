@@ -72,7 +72,6 @@
 		"message": "Wrong or missing parameter"    
 	   }  
 ```
-</br>
 -***EndPoint:*** /getDupContractByDate?date=2020-12-22  
 -***Method:*** GET  
 -***Parameter:***  
