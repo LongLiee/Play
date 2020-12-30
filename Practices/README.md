@@ -1,7 +1,7 @@
 # API document
 
 ## 1. Record Tracking
-###### Insert data into DB from user input
+#### Insert data into DB from user input
 -***EndPoint:*** /postTotalRecord (GET,POST)  
 -***Source:*** http://git.bigdata.local/data-engineers/ftel-api.Branch: record-tracking-0.0.1  
 -***Method:*** GET/POST  
@@ -56,7 +56,7 @@
 	   }  
 ```
 ## 2. CSMR
-###### Get contract Data by Date
+#### Get contract Data by Date
 -***EndPoint:*** /getContractByDate?date=2020-12-01  
 -***Source:*** http://bigdata-api.fpt.vn/api/v0.1/csmr/getContractByDate?date=2020-12-22  
 -***Method:*** GET  
@@ -94,7 +94,7 @@
 	   }  
 ```
 ## 3. SCC
-###### Get contract Data
+#### Get contract Data
 -***EndPoint:*** /getContractData?contract=BNFD32739  
 -***Source:*** http://bigdata-api.fpt.vn/api/v0.1/scc/getContractData?contract=BNFD32739  
 -***Method:*** GET  
@@ -116,7 +116,7 @@
 	   ERROR! Missing Contract 
 ```
 ## 4. Internet
-###### Predict leaving the internet
+#### Predict leaving the internet
 -***EndPoint:*** /  
 -***Source:*** http://bigdata-api.fpt.vn/api/v0.1/internet/churn/predict  
 -***Method:*** GET  
@@ -141,8 +141,8 @@
 - Else, set import_date = 14th of month  
 ==> Ex: current date= ‘2019-09-13' -> import_date = ‘2019-09-02'  
 current date= ‘2019-09-16' -> import_date = ‘2019-09-14'  
-## 4. Potential Client
-###### Get Potential Client
+## 5. Potential Client
+#### Get Potential Client
 -***EndPoint:*** /  
 -***Source:*** http://bigdata-api.fpt.vn/api/v0.1/client/getClientByMonth?contract=AGD003838&month=2020-06  
 -***Method:*** GET  
@@ -178,4 +178,183 @@ current date= ‘2019-09-16' -> import_date = ‘2019-09-14'
 ```
 	   {"code": 400, "data": "Something went wrong!"}  
 ```
+## 6. RKNLT
+#### Rớt kết nối liên tục 
+-***EndPoint:*** /getAll  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/rknlt/getAll?date=2018-12-11   
+-***Method:*** GET  
+-***Parameter:***  
+- date=yyyy-MM-dd _(string)_  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+	[ {"contract":"BLD001647"}, 
+	  {"contract":"HNH541411"}, 
+	  {"contract":"SGH427124"}, 
+	…]	
+```
+
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	   {"data": "Something went wrong!", "code": 400}  
+```
+> Note: Data này out daily, trừ ngày **chủ nhật**
+## 7. PAYTV
+#### Return all contract by month 
+-***EndPoint:*** /getAll  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/paytv/getAll?month=2018-10   
+-***Method:*** GET  
+-***Parameter:***  
+- month=yyyy-MM _(string)_  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+	   [ 
+
+	       { 
+
+		   "contract":    "SGH462715", 
+
+		   "active_date":    "2018-03-23 15:54:15.013", 
+		   "change_date":    "2018-03-22 09:40:05.82", 
+		   "status":    "Binh thuong", 
+		   "region":    "Ho Chi Minh", 
+		   "location":    "Vung 5", 
+		   "amount":    63871 
+
+	       }, 
+
+	       ..... 
+
+	   ] 	
+```
+
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	   {"data": "Something went wrong!", "code": 400}  
+```
+#### Return all contract predict log by date
+-***EndPoint:*** /getPredict  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/paytv/getPredict?date=2019-03-12   
+-***Method:*** GET  
+-***Parameter:***  
+- month=yyyy-MM-dd _(string)_  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+	[ 
+	  {"contract":"HNH301986"}, 
+
+	  {"contract":"HNH567432"}, 
+
+	  {"contract":"HNH624499"}, 
+
+	  .... 
+	] 	
+```
+
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	   {"data": "Something went wrong!", "code": 400}  
+```
+## 8. Sessions
+#### Get sessions by Last Date 
+-***EndPoint:*** /getAll  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/sessions/getAll  
+-***Method:*** GET  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+           [ 
+
+             {"contract":"VTFD41938", "name":"vtfdl-180920-938"}, 
+
+             {"contract":"VTFD39759", "name":"vtfdl-180730-759"}, 
+
+             {"contract":"TVFD07323", "name":"tvfdl-180622-323"}, 
+
+             ..... 
+            ] 	
+```
+
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	   {"data": "Something went wrong!", "code": 400}  
+```
+#### Get sessions by Range Date
+-***EndPoint:*** /getByDate  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/sessions/getByDate?fromDate=2019-01-01&toDate=2019-01-02  
+-***Method:*** GET  
+-***Parameter:***  
+- fromDate=yyyy-MM-dd _(string)_  
+- toDate=yyyy-MM-dd _(string)_  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+        [ 
+
+           {"contract":"SGH577243", "name":"sgfdl-181220-243"}, 
+
+           {"contract":"SGH568330", "name":"sgfdl-181019-330"}, 
+
+         ..... 
+
+        ] 
+```
+
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	   {"data": "Something went wrong!", "code": 400}  
+```
+## 9. INFRA INSIDE
+#### Đối với chương trình Wifi kém 
+-***EndPoint:*** /wifi  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/inside/contract/wifi?date=2019-09-11  
+-***Method:*** GET  
+-***Parameter:***  
+- date=yyyy-MM-dd _(string)_  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+	  [{"contract":"HNH404006", "id":"2"},...]     
+```
+
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	   {"data": "Something went wrong!", "code": 400}  
+```
+#### Đối với chương trình KH lỗi hạ tầng
+-***EndPoint:*** /khlht  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/inside/contract/khlht?date=2019-09-11  
+-***Method:*** GET  
+-***Parameter:***  
+- date=yyyy-MM-dd _(string)_  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+	  [{"contract":"SGD744758", "id":"4"},...]
+```
+
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	   {"data": "Something went wrong!", "code": 400}  
+```
+> Data này chỉ có vào mỗi thứ Tư hàng tuần trong database
+#### Đối với chương trình Lỗi kết nối Internet 
+-***EndPoint:*** /clkn_net  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/inside/contract/clkn_net?date=2020-10-26   
+-***Method:*** GET  
+-***Parameter:***  
+- date=yyyy-MM-dd _(string)_  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+	  [{"contract":"SGD744758", "id":"4"},...]     
+```
+
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	   {"data": "Something went wrong!", "code": 400}  
+```
+
 
