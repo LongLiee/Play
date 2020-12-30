@@ -356,5 +356,253 @@ current date= ‘2019-09-16' -> import_date = ‘2019-09-14'
 ```
 	   {"data": "Something went wrong!", "code": 400}  
 ```
+## 10. Internet Traffic
+#### Get traffic internet
+-***EndPoint:*** /  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/traffic/getLstContract   
+-***Method:*** POST  
+-***Parameter:***  
+- date_(string)_ -> enable null  
+- region_(string)_ -> not null  
+- packageName_(string)_ -> not null  
+- target_(double)_ -> not null (0 < value <= 100) : return number of contract  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+		{  
+
+		    "code": 200,  
+
+		    "message": "success",  
+
+		    "totalContract": 170168,  
+
+		    "data": [  
+
+			  {  
+
+			    "contract": "NNFD02573",  
+
+			    "region": "Vung 6",  
+
+			    "location": "Ninh Thuan",  
+
+			    "packageName": "FTTH - Super22",  
+
+			    "totalScore": 13,  
+
+			    "priority": 1,  
+
+			    "rank": 1871409, 
+
+			    “date” : “2020-08-01" 
+
+			  }, 
+
+			  ….  
+
+		      ]  
+
+	         } 	
+```
+
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	     { 
+                "code": 400,  
+                "data": "Something went wrong!" 
+             } 
+```
+#### *Example
+- Use curl:  
+```
+curl -d '{"region": "Vung 4", “date” : “2020-08-01", "packageName": "FTTH - Super22","target":100}' -H "Content-Type: application/json" -X POST http://bigdata-api.fpt.vn/api/v0.1/traffic/getLstContract 
+```
+- Use Postman:  
+```
+	Result:
+		{  
+
+		    "code": 200,  
+
+		    "message": "success",  
+
+		    "totalContract": 111032, 
+
+		    "data": [ 
+
+			{ 
+
+			    "contract": "HUFD05855", 
+
+			    "region": "Vung 4", 
+
+			    "location": "Hue", 
+
+			    "packageName": "FTTH - Super22", 
+
+			    "totalScore": 36.3, 
+
+			    "priority": 1, 
+
+			    "rank": 61, 
+
+			   “date” : “2020-08-01" 
+
+			}, 
+
+			{ 
+
+			    "contract": "NTFD14652", 
+
+			    "region": "Vung 4", 
+
+			    "location": "Nha Trang", 
+
+			    "packageName": "FTTH - Super22", 
+
+			    "totalScore": 35, 
+
+			    "priority": 1, 
+
+			    "rank": 140, 
+
+			   “date” : “2020-08-01" 
+
+			}, 
+
+			  ….  
+
+		      ]  
+
+		} 
+```
+## 11. UP
+#### Get sessions by Last Date 
+-***EndPoint:*** /topUpsell  
+-***Source:*** http://bigdata-api.fpt.vn/up/v2/getUserInfo/topUpsell?listContract=HNH504859&top=5  
+-***Method:*** GET  
+-***Parameter:***  
+- listContract_(string)_  
+- top(string)_  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+	[
+	 {
+	   "contract": "HNH504859",
+	   "topUpsellGroup": {
+	   	"top1": "Nâng gói dịch vụ",
+	   	"top2": "Bán thêm box truyền hình",
+	   	"top3": "Bán thêm Camera",
+	   	"top4": "Bán thêm Access Point",
+	   	"top5": ""
+	   }
+	 }
+	]
+```
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	     { 
+                "code": 400,  
+                "data": "Something went wrong!" 
+             } 
+```
+- Reponses explanation:  
+  - contract:  Contract number of clients  
+  - Top 1-5:  Top upsell groups  
+#### Show data Userprofile as tables
+-***EndPoint:*** /iframe  
+-***Source:*** http://bigdata-api.fpt.vn/up/v2/getUserInfo/iframe?listContract=HNH504859&tMonth=t,t1,t2,t3   
+-***Method:*** GET  
+-***Parameter:***  
+- listContract_(string)_: list contracts separated by character ","  
+- tMonth_(string)_: list months in array [ t, t1, t2, t3] and separated by character “,”  
+Based on current month to get t1, t2, t3. Example: today is 2020-02-11  
+-> t: current month (2020-9)  
+&nbsp;&nbsp;t1: 2020-08, t2: 2020-07, t3: 2020-06  
+- Each parameter is separated by character “&” 
+**Format response:** Tables
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+![image](https://user-images.githubusercontent.com/40731343/103339561-40ffb280-4ab4-11eb-95e2-10ea76697b0f.png)  
+&nbsp;&nbsp;&nbsp;- Error:  
+![image](https://user-images.githubusercontent.com/40731343/103339666-8fad4c80-4ab4-11eb-8819-9a32ca43206d.png)  
+- Reponses explanation:  
+  - Success: Show data table as html  
+  - Error: Contract (contract number) is invalid   
+#### Show data potential client 
+-***EndPoint:*** /potentialClient  
+-***Source:*** http://bigdata-api.fpt.vn/up/v2/getUserInfo/potentialClient?listContract=HNH504859    
+-***Method:*** GET  
+-***Parameter:***  
+- listContract_(string)_: list contracts separated by character ","  
+**Format response:** Json
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+- curl http://bigdata-api.fpt.vn/up/v2/getUserInfo/potentialClient?listContract=HNH504859 
+![image](https://user-images.githubusercontent.com/40731343/103340145-f1ba8180-4ab5-11eb-816c-50aad20280a2.png)  
+&nbsp;&nbsp;&nbsp;- Error:  
+![image](https://user-images.githubusercontent.com/40731343/103340194-1151aa00-4ab6-11eb-8ac4-19a8881bff23.png)  
+- Reponses explanation:  
+  - contract:  Contract number of clients  
+  - upgradeGroup:  Upgrade - Package  
+  - upsellPfGroup:  Upsell - Combo  
+  - UpsellcamGroup : Upsell - Camera  
+## 12. Natnoc
+#### Get NAT info
+-***EndPoint:*** /  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/noc/natinfo?nat=true&nasname=MX480  
+-***Method:*** GET  
+-***Parameter:***  
+- nasname_(string)_  
+- nat_(boolean)_  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+	 { 
+	   "MX480":[325, 2211], 
+	   "HCM-MP05-5":[238, 3345] 
+	 } 
+```
+&nbsp;&nbsp;&nbsp;- Error: ERROR  
+## 13. Infra
+#### Auto checklist by request
+-***EndPoint:*** /contract/is-error  
+-***Source:*** http://bigdata-api.fpt.vn/api/v0.1/infra/contract/is-error   
+-***Method:*** GET  
+-***Parameter:***  
+- date_(string)_: YYYY-MM-dd  
+- contract_(string)_  
+**Response:**  
+&nbsp;&nbsp;&nbsp;- Success:  
+```
+    { 
+	   "code":200, 
+	   "message":"success", 
+	   "data":true, 
+	   "result":{ 
+	      "user_down":-1, 
+	      "inf_down":-1, 
+	      "sf_error":0, 
+	      "lofi_error":0, 
+	      "rouge_error":-1, 
+	      "lost_signal":-1, 
+	      "log_off":15, 
+	      "device":5, 
+	      "wifi_rate":0.54   
+	   } 
+    } 
+```
+&nbsp;&nbsp;&nbsp;- Error:  
+```
+	{"data":"Something went wrong!","code":400}
+```
+
+
+
+
+
+
 
 
